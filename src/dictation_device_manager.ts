@@ -58,12 +58,15 @@ const DEVICE_FILTERS: Readonly<
             {vendorId: 0x0554, productId: 0x0064, usagePage: 1, usage: 4}),
       ]),
       [ImplementationType.FOOT_CONTROL]: Object.freeze([
-        // 3-pedal Foot control ACC2310/2320
+        // Philips: 3-pedal Foot control ACC2310/2320
         Object.freeze(
             {vendorId: 0x0911, productId: 0x1844, usagePage: 1, usage: 4}),
-        // 4-pedal Foot control ACC2330
+        // Philips: 4-pedal Foot control ACC2330
         Object.freeze(
             {vendorId: 0x0911, productId: 0x091a, usagePage: 1, usage: 4}),
+        // Infinity/VEC/AltoEdge foot pedals (Consumer > Programmable Buttons)
+        Object.freeze(
+            {vendorId: 0x05F3, productId: 0x00FF, usagePage: 0x0C, usage: 0x03}),
       ]),
       [ImplementationType.POWERMIC_3]: Object.freeze([
         // PowerMic III
