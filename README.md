@@ -31,6 +31,22 @@ TODO: host latest release and link here
 | Philips SpeechMike Ambient PSM5000       |                 |
 | Nuance PowerMic III                      |                 |
 | Nuance PowerMic 4                        |                 |
+| *(third-party foot controls — see below)* | Infinity, VEC, AltoEdge USB foot pedals |
+
+###  Custom foot control device support
+
+The SDK includes an additional WebHID filter for **Infinity**, **VEC**, and **AltoEdge** USB foot pedals that enumerate as Consumer Control devices with programmable buttons. They are handled by the same `ImplementationType.FOOT_CONTROL` path as Philips foot controls, so button events and connection behavior match the existing foot-control implementation.
+
+| Detail                        | Value                          |
+|:------------------------------|:-------------------------------|
+| Vendor ID (hex)               | `0x05F3`                       |
+| Product ID (hex)              | `0x00FF`                       |
+| Usage page                    | `0x0C` (Consumer)              |
+| Usage                         | `0x03` (Programmable Buttons)  |
+
+For [WebHID enterprise allowlisting](https://chromeenterprise.google/policies/#WebHidAllowAllDevicesForUrls), use **decimal** vendor and product IDs: **1523** and **255**.
+
+The filter is defined in [`src/dictation_device_manager.ts`](src/dictation_device_manager.ts) under `DEVICE_FILTERS` → `FOOT_CONTROL`.
 
 ###  Supported platforms
 * Google Chrome on Windows, macOS, Linux and Chrome OS (Chromebooks)
