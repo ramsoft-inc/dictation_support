@@ -51,6 +51,8 @@ export class FootControlDevice extends DictationDeviceBase {
   }
 
   protected getInputBitmask(data: DataView): number {
+    const rawBytes = Array.from(new Uint8Array(data.buffer));
+    console.log(`[dictation_support] FootControl HID input | vendor=0x${this.hidDevice.vendorId.toString(16).padStart(4,'0')} product=0x${this.hidDevice.productId.toString(16).padStart(4,'0')} | raw bytes: [${rawBytes.join(', ')}]`);
     return data.getUint8(0);
   }
 

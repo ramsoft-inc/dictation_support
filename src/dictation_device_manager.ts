@@ -114,6 +114,7 @@ export class DictationDeviceManager {
     this.hidApi.addEventListener('disconnect', this.onDisconectHandler);
 
     const hidDevices = await this.hidApi.getDevices();
+    console.log(`[dictation_support] init() | browser-granted HID devices: ${hidDevices.length}`, hidDevices.map(d => `0x${d.vendorId.toString(16)}:0x${d.productId.toString(16)} "${d.productName}"`));
     await this.createAndAddInitializedDevices(hidDevices);
 
     this.isInitialized = true;
@@ -137,8 +138,10 @@ export class DictationDeviceManager {
   async requestDevice(): Promise<Array<DictationDevice>> {
     this.failIfNotInitialized();
 
+    const filters = getFilters();
+    console.log(`[dictation_support] requestDevice() | filters:`, filters);
     const hidDevices = await this.hidApi.requestDevice({
-      filters: getFilters(),
+      filters,
     });
 
     const devices = await this.createAndAddInitializedDevices(hidDevices);
@@ -207,7 +210,11 @@ export class DictationDeviceManager {
     if (this.devices.has(hidDevice)) return undefined;
 
     const implType = getImplType(hidDevice);
-    if (implType === undefined) return undefined;
+    if (implType === undefined) {
+      console.log(`[dictation_support] Device not recognized (no matching filter) | vendor=0x${hidDevice.vendorId.toString(16).padStart(4,'0')} product=0x${hidDevice.productId.toString(16).padStart(4,'0')} name="${hidDevice.productName}" collections=${JSON.stringify(hidDevice.collections?.map(c => ({usagePage: c.usagePage, usage: c.usage})))}`);
+      return undefined;
+    }
+    console.log(`[dictation_support] Device recognized | implType=${ImplementationType[implType]} vendor=0x${hidDevice.vendorId.toString(16).padStart(4,'0')} product=0x${hidDevice.productId.toString(16).padStart(4,'0')} name="${hidDevice.productName}"`);
     switch (implType) {
       case ImplementationType.SPEECHMIKE_HID:
         return SpeechMikeHidDevice.create(hidDevice);
