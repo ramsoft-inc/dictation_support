@@ -49,6 +49,7 @@ export enum DeviceType {
   POWERMIC_3 = 4097,
   POWERMIC_4 = 100,
   SPEECHMIKE_AMBIENT_PSM5000 = 5000,
+  FOOT_CONTROL_INFINITY_VEC = 1523,
 }
 
 export enum ButtonEvent {

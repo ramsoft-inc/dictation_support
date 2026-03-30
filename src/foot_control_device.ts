@@ -40,6 +40,9 @@ export class FootControlDevice extends DictationDeviceBase {
       }
       return DeviceType.UNKNOWN;
     }
+    if (this.hidDevice.vendorId === 0x05F3) {
+      return DeviceType.FOOT_CONTROL_INFINITY_VEC;
+    }
     return DeviceType.UNKNOWN;
   }
 
